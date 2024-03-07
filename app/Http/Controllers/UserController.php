@@ -19,16 +19,28 @@ class UserController extends Controller
         return Datatables::of($users)->toJson();
     }
 
-    public function create()
-    {
-        return view('users.create');
-    }
-
     public function store(Request $request)
     {
+        $messages = [
+            'nombres.required' => 'El campo nombres es requerido.',
+            'apellidos.required' => 'El campo apellidos es requerido.',
+            'correo.required' => 'El campo correo es requerido.',
+            'correo.email' => 'El campo correo debe ser un correo válido.',
+            'correo.unique' => 'El correo ya está en uso.',
+            'telefono.numeric' => 'El campo teléfono debe ser un número.'
+        ];
+        
+        $request->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'correo' => 'required|email|unique:users',
+            'telefono' => 'nullable|numeric'
+        ], $messages);
+
         $user = new User();
         $user->nombres = $request->nombres;
         $user->apellidos = $request->apellidos;
+        $user->correo = $request->correo;
         $user->telefono = $request->telefono;
         $user->fecha_registro = now();
         $user->fecha_modificacion = now();
@@ -51,9 +63,26 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'nombres.required' => 'El campo nombres es requerido.',
+            'apellidos.required' => 'El campo apellidos es requerido.',
+            'correo.required' => 'El campo correo es requerido.',
+            'correo.email' => 'El campo correo debe ser un correo válido.',
+            'correo.unique' => 'El correo ya está en uso.',
+            'telefono.numeric' => 'El campo teléfono debe ser un número.'
+        ];
+        
+        $request->validate([
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'correo' => 'required|email|unique:users,correo,'.$id,
+            'telefono' => 'nullable|numeric'
+        ], $messages);
+
         $user = User::findOrFail($id);
         $user->nombres = $request->nombres;
         $user->apellidos = $request->apellidos;
+        $user->correo = $request->correo;
         $user->telefono = $request->telefono;
         $user->fecha_modificacion = now();
         $user->save();

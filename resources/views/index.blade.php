@@ -1,50 +1,73 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba EML</title>
-    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
-    <div class="container mt-5">
-        <div class="alert alert-danger" id="error-alert" style="display: none;">
-            <ul id="error-list">
-            </ul>
+@extends('layouts.app')
+@section('content')
+    <div id="main">
+        <div class="page-heading">
+            <div class="page-title">
+                <div class="row">
+                    <div class="col-12 col-md-6 order-md-1 order-last">
+                        <h3>Usuarios</h3>
+                        <p class="text-subtitle text-muted">Administración de usuarios</p>
+                    </div>
+                    <div class="col-12 col-md-6 order-md-2 order-first">
+                        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <section class="section">
+                <div class="card">
+                    <div class="card-header">
+                        Usuarios
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addUserModal">Agregar
+                            Usuario</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="container">
+                                <div class="container mt-5">
+                                    <div class="alert alert-danger" id="error-alert" style="display: none;">
+                                        <ul id="error-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="container mt-5">
+                                    <div class="alert alert-success" id="success-alert" style="display: none;">
+                                        <ul id="success-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table" id="users-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombres</th>
+                                        <th>Apellidos</th>
+                                        <th class="d-none d-md-table-cell">Correo</th>
+                                        <th class="d-none d-md-table-cell">Teléfono</th>
+                                        <th class="d-none d-md-table-cell">Fecha de Registro</th>
+                                        <th class="d-none d-md-table-cell">Fecha de Última Modificación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table-body">
+                                    <!-- Contenido de la tabla -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-    <div class="container mt-5">
-        <div class="alert alert-success" id="success-alert" style="display: none;">
-            <ul id="success-list">
-            </ul>
-        </div>
-    </div>
-    <div class="container mt-5">
-        <h2>Usuarios</h2>
-        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addUserModal">Agregar Usuario</button>
-        <div class="table-responsive">
-            <table class="table" id="users-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th class="d-none d-md-table-cell">Teléfono</th>
-                        <th class="d-none d-md-table-cell">Fecha de Registro</th>
-                        <th class="d-none d-md-table-cell">Fecha de Última Modificación</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="users-table-body">
-                    <!-- Contenido de la tabla -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
     <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -69,8 +92,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="correo">Correo:</label>
+                            <input type="email" class="form-control" id="correo" name="correo" required>
+                        </div>
+
+                        <div class="form-group">
                             <label for="telefono">Teléfono:</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono" required>
+                            <input type="number" class="form-control" id="telefono" name="telefono" required>
                         </div>
                         <button onclick="createUser()" class="btn btn-primary">Guardar Usuario</button>
                     </form>
@@ -101,6 +129,10 @@
                             <input type="text" class="form-control" id="apellidos" name="apellidos" required>
                         </div>
                         <div class="form-group">
+                            <label for="correo">Correo:</label>
+                            <input type="email" class="form-control" id="correo" name="correo" required>
+                        </div>
+                        <div class="form-group">
                             <label for="telefono">Teléfono:</label>
                             <input type="text" class="form-control" id="telefono" name="telefono" required>
                         </div>
@@ -111,18 +143,18 @@
             </div>
         </div>
     </div>
+@endsection
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+@section('scripts')
     <script>
         $(document).ready(function() {
             $('#users-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('get_users') }}",
+                order: [
+                    [1, 'asc']
+                ],
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -134,6 +166,10 @@
                     {
                         data: 'apellidos',
                         name: 'apellidos'
+                    },
+                    {
+                        data: 'correo',
+                        name: 'correo'
                     },
                     {
                         data: 'telefono',
@@ -150,10 +186,11 @@
                     {
                         data: null,
                         render: function(data, type, row) {
-                            return '<button class="btn btn-warning edit-user" data-user-id="' + row
-                                .id + '">Editar</button>' +
-                                '<button class="btn btn-danger delete-user" data-user-id="' + row
-                                .id + '">Eliminar</button>';
+                            //render the buttons with icons for edit and delete
+                            return '<button class="btn btn-primary edit-user" data-user-id="' + data
+                                .id +
+                                '"><i class="fa fa-edit"></i></button> <button class="btn btn-danger delete-user" data-user-id="' +
+                                data.id + '"><i class="fa fa-trash"></i></button>';
                         }
                     }
                 ],
@@ -164,6 +201,7 @@
                     "infoEmpty": "No hay registros disponibles",
                     "infoFiltered": "(filtrado de _MAX_ registros totales)",
                     "search": "Buscar:",
+                    "processing": "Procesando...",
                     "paginate": {
                         "first": "Primero",
                         "last": "Último",
@@ -179,6 +217,7 @@
             var data = {
                 nombres: $('#nombres').val(),
                 apellidos: $('#apellidos').val(),
+                correo: $('#correo').val(),
                 telefono: $('#telefono').val(),
                 _token: "{{ csrf_token() }}"
             };
@@ -195,10 +234,16 @@
                         $('#success-alert').hide();
                     }, 3000);
                     $('#users-table').DataTable().ajax.reload();
+                    $('#addUserForm').trigger('reset');
                 },
                 error: function(error) {
+                    $('#addUserModal').modal('hide');
                     $('#error-list').empty();
                     $('#error-alert').show();
+                    $('#addUserForm').trigger('reset');
+                    setTimeout(function() {
+                        $('#error-alert').hide();
+                    }, 3000);
                     $.each(error.responseJSON.errors, function(key, value) {
                         $('#error-list').append('<li>' + value + '</li>');
                     });
@@ -215,6 +260,7 @@
                     $('#editUserModal').modal('show');
                     $('#editUserForm #nombres').val(response.nombres);
                     $('#editUserForm #apellidos').val(response.apellidos);
+                    $('#editUserForm #correo').val(response.correo);
                     $('#editUserForm #telefono').val(response.telefono);
                     $('#editUserForm #user_id').val(user_id);
                 }
@@ -226,6 +272,7 @@
             var data = {
                 nombres: $('#editUserForm #nombres').val(),
                 apellidos: $('#editUserForm #apellidos').val(),
+                correo: $('#editUserForm #correo').val(),
                 telefono: $('#editUserForm #telefono').val(),
                 user_id: $('#editUserForm #user_id').val(),
                 _token: "{{ csrf_token() }}"
@@ -239,14 +286,20 @@
                     $('#success-list').empty();
                     $('#success-list').append('<li>Usuario actualizado correctamente</li>');
                     $('#success-alert').show();
+                    $('#editUserForm').trigger('reset');
                     setTimeout(function() {
                         $('#success-alert').hide();
                     }, 3000);
                     $('#users-table').DataTable().ajax.reload();
                 },
                 error: function(error) {
+                    $('#editUserModal').modal('hide');
                     $('#error-list').empty();
                     $('#error-alert').show();
+                    $('#editUserForm').trigger('reset');
+                    setTimeout(function() {
+                        $('#error-alert').hide();
+                    }, 3000);
                     $.each(error.responseJSON.errors, function(key, value) {
                         $('#error-list').append('<li>' + value + '</li>');
                     });
@@ -276,7 +329,4 @@
             }
         });
     </script>
-
-</body>
-
-</html>
+@endsection
